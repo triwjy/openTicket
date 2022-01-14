@@ -1,6 +1,8 @@
 import express from 'express';
 import 'express-async-errors';
-import { json } from 'body-parser'
+import { json } from 'body-parser';
+import mongoose from 'mongoose';
+
 import { currentUserRouter } from './routes/current-user';
 import { signInRouter } from './routes/signin';
 import { signUpRouter } from './routes/signup';
@@ -25,6 +27,17 @@ app.use(errorHandler);
 const PORT = 3000;
 const HOST = '0.0.0.0';
 
-app.listen(PORT, HOST, () => {
-  console.log(`Listening on port ${PORT}!!`);
-})
+const start = async () => {
+  try {
+    await mongoose.connect('mongodb://auth-mongo-svc:27017/auth')  
+    console.log('Connected to auth-mongo-db');
+    
+  } catch (error) {
+    console.log(error);
+  }
+  app.listen(PORT, HOST, () => {
+    console.log(`Listening on port ${PORT}!!`);
+  });
+};
+
+start();
