@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { Password } from '../services/password';
 
 // Interface that describe properties 
 // that are required to create new user
@@ -29,6 +30,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true
   }
+});
+
+// middlware in mongoose need to call done() once the hook finished
+// use function keyword so that this will refer to document being saved
+// arrow function will refer this to the context of entire file
+userSchema.pre('save', async function(done) {
+  // return true if password is created / modified
+  if (this.isModified('password')) {
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed);
+  }
+  done();
 });
 
 userSchema.statics.build = (attrs: UserAttrs) => {
