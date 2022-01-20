@@ -1,3 +1,6 @@
 */node_modules
 client/.next
 signingkey
+*/.git
+*/build
+./common/
