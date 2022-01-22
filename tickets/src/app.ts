@@ -5,6 +5,7 @@ import cookieSession from 'cookie-session';
 import { currentUser, errorHandler, NotAuthorizedError, NotFoundError } from '@twtix/common';
 import { createTicketRouter } from './routes/new';
 import { showTicketRouter } from './routes/show';
+import { indexTicketRouter } from './routes';
 
 const app = express();
 // trust traffic that comes from proxy (ingress-nginx)
@@ -18,6 +19,7 @@ app.use(currentUser);
 
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(indexTicketRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
