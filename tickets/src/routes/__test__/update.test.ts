@@ -2,6 +2,7 @@ import request from 'supertest';
 import { app } from '../../app';
 import mongoose from 'mongoose';
 import { natsWrapper } from '../../nats-wrapper';
+import { Ticket } from '../../models/ticket';
 
 jest.mock('../../nats-wrapper');
 
@@ -144,4 +145,33 @@ it ('publishes an event', async () => {
     .expect(200);  
 
   expect(natsWrapper.client.publish).toHaveBeenCalled();
+})
+
+it ('cannot edit a reserved ticket',async () => {
+  const cookie = global.signin();
+
+  const response = await request(app)
+    .post('/api/tickets')
+    .set('Cookie', cookie)
+    .send({
+      title: 'concert',
+      price: 10
+    })
+    .expect(201)
+
+
+  const ticketId = response.body.id
+  const orderId = new mongoose.Types.ObjectId().toHexString();
+  const ticket = await Ticket.findById(ticketId)
+  ticket!.set({ orderId })
+  await ticket!.save()
+
+  await request(app)
+    .put(`/api/tickets/${ticketId}`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'Circus',
+      price: 23
+    })
+    .expect(400);  
 })
