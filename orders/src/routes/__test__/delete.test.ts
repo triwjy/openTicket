@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 import { Order, OrderStatus } from '../../models/order';
+import { natsWrapper } from '../../nats-wrapper';
 
 it ('returns an error if order is not exist',async () => {
   const orderId = new mongoose.Types.ObjectId()
@@ -15,6 +16,7 @@ it ('returns an error if order is not exist',async () => {
 
 it ('returns an error the order is not belong to the correct user',async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 10
   });
@@ -37,6 +39,7 @@ it ('returns an error the order is not belong to the correct user',async () => {
 
 it ('cancels an order upon delete order request',async () => {
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 10
   });
@@ -59,4 +62,26 @@ it ('cancels an order upon delete order request',async () => {
   expect(updatedOrder!.status).toEqual(OrderStatus.Cancelled);
 })
 
-it.todo('publish an event when order is cancelled');
+it ('publish an event when order is cancelled',async () => {
+    const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
+    title: 'concert',
+    price: 10
+  });
+  await ticket.save();
+
+  const user = global.signin();
+  const { body: order } = await request(app)
+    .post('/api/orders')
+    .set('Cookie', user)
+    .send({ ticketId: ticket.id })
+    .expect(201)
+
+  await request(app)
+    .delete(`/api/orders/${order.id}`)
+    .set('Cookie', user)
+    .send()
+    .expect(204);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

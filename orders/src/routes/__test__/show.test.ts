@@ -1,4 +1,5 @@
 import request from 'supertest';
+import mongoose from 'mongoose';
 import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 
@@ -13,6 +14,7 @@ it ('returns NotFoundError if order does not exist',async () => {
 it ('returns NotAuthorizedError if user is trying to fetch other users order',async () => {
   // create ticket
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 10    
   });
@@ -38,6 +40,7 @@ it ('returns NotAuthorizedError if user is trying to fetch other users order',as
 it ('fetches the order',async () => {
   // create ticket
   const ticket = Ticket.build({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: 'concert',
     price: 10    
   });
