@@ -1,4 +1,3 @@
-import buildClient from '../api/build-client';
 import React from 'react'
 
 const LandingPage = ({ currentUser }) => {
@@ -13,11 +12,8 @@ const LandingPage = ({ currentUser }) => {
 
 // executed first in ssr before rendering html (specific to next)
 // can do fetch data here
-LandingPage.getInitialProps = async context => {
-  const client = buildClient(context)
-  const { data } = await client.get('/api/users/currentuser'); 
-
-  return data
+LandingPage.getInitialProps = async (context) => {
+  return {}
 };
 
 export default LandingPage;
