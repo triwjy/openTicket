@@ -15,6 +15,7 @@ export default ({ url, method, body, onSuccess })=> {
 
       return response.data
     } catch (errors) {
+      console.log(errors);
       setErrors(
         <div className="alert alert-danger">
           <h4>Ooops...</h4>
