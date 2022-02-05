@@ -5,7 +5,6 @@ import { Ticket } from '../../models/ticket';
 
 it ('returns NotFoundError if order does not exist',async () => {
   const id = new mongoose.Types.ObjectId().toHexString();
-
   await request(app)
     .get(`/api/orders/${id}`)
     .set('Cookie', global.signin())
