@@ -57,5 +57,4 @@ const start = async () => {
     console.log(`Payments service is listening on port ${PORT}`);
   });
 };
-
 start();
