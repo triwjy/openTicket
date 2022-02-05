@@ -28,8 +28,13 @@ const start = async () => {
     throw new Error('NATS_URL must be defined')
   }
 
+  if(!process.env.STRIPE_KEY) {
+    throw new Error('STRIPE_KEY must be defined')
+  }
 
   try {
+    console.log('Starting up Payments Service...');
+    
     await natsWrapper.connect(
       process.env.NATS_CLUSTER_ID,
       process.env.NATS_CLIENT_ID,
@@ -52,7 +57,7 @@ const start = async () => {
     console.log(error);
   }
   app.listen(PORT, HOST, () => {
-    console.log(`Listening on port ${PORT}!!`);
+    console.log(`Payments service is listening on port ${PORT}`);
   });
 };
 
