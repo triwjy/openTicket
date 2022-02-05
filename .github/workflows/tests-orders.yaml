@@ -1,10 +1,12 @@
-name: tests-orders
+name: tests-payments
 
 on: [pull_request]  
+
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd orders && npm install && npm run test:ci
+      - run: cd payments && echo -e "STRIPE_KEY=${{ secrets.STRIPE_KEY }}" > .env.local
+      - run: npm install && npm run test:ci
