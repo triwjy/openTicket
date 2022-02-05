@@ -1,7 +1,6 @@
-*/node_modules
-*/.env*
-client/.next
+node_modules
+.env*
+.next
 signingkey
-*/.git
-*/build
-./common/
+.git
+build
