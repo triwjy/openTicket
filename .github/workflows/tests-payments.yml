@@ -10,6 +10,6 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           echo ${{ secrets.STRIPE_KEY }}
-          echo STRIPE_KEY=${{ secrets.STRIPE_KEY }} > .env.local
+          echo STRIPE_KEY=${{ secrets.STRIPE_KEY }} > .env
           cd payments && npm install && npm run test:ci
   
