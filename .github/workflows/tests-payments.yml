@@ -2,11 +2,11 @@ name: tests-payments
 
 on: [pull_request]  
 
-env:
-  STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
 
 jobs:
   build:
+    env:
+      STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
