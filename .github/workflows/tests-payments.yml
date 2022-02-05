@@ -8,12 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-<<<<<<< HEAD
       - run: |
         echo ${{ secrets.STRIPE_KEY }}
         echo STRIPE_KEY=${{ secrets.STRIPE_KEY }} > .env.local
         cd payments && npm install && npm run test:ci
-=======
-      - run: echo -e "STRIPE_KEY=${{ secrets.STRIPE_KEY }}" > .env.local
-      - run: cd payments && npm install && npm run test:ci
->>>>>>> b3d5147f36f1cf4802d21fbd239c492f5c8ceffe
