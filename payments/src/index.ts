@@ -54,7 +54,7 @@ const start = async () => {
     console.log(error);
   }
   app.listen(PORT, HOST, () => {
-    console.log(`Listening on port ${PORT}!!`);
+    console.log(`Payments service is listening on port ${PORT}`);
   });
 };
 
