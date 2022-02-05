@@ -1,0 +1,16 @@
+name: tests-payments
+
+on: 
+  pull_request:
+    paths:
+      - 'payments/**'
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          export STRIPE_KEY=${{ secrets.STRIPE_KEY }}
+          cd payments && npm install && npm run test:ci

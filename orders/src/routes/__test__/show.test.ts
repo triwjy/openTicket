@@ -4,8 +4,9 @@ import { app } from '../../app';
 import { Ticket } from '../../models/ticket';
 
 it ('returns NotFoundError if order does not exist',async () => {
-  request(app)
-    .get('/api/orders/adfadsf')
+  const id = new mongoose.Types.ObjectId().toHexString();
+  await request(app)
+    .get(`/api/orders/${id}`)
     .set('Cookie', global.signin())
     .send()
     .expect(404)
