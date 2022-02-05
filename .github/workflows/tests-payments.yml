@@ -5,9 +5,8 @@ on: [pull_request]
 
 jobs:
   build:
-    env:
-      STRIPE_KEY: ${{ secrets.STRIPE_KEY }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - run: cd payments && npm install && npm run test:ci
+      - run: cd payments && echo -e "STRIPE_KEY=${{ secrets.STRIPE_KEY }}" > .env.local
+      - run: npm install && npm run test:ci
