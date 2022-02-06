@@ -1,0 +1,25 @@
+name: deploy-client
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'client/**'
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+      - run: cd client && docker build -t triwjy/ticketing-client .
+      - run: docker push triwjy/ticketing-client
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
+      - run: doctl k cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment client-depl
