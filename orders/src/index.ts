@@ -10,6 +10,8 @@ const PORT = 3000;
 const HOST = '0.0.0.0';
 
 const start = async () => {
+  console.log('Starting Orders Service...');
+  
   if (!process.env.JWT_KEY) {
     throw new Error('No signing key: JWT_KEY must be defined')
   }
@@ -56,7 +58,7 @@ const start = async () => {
     console.log(error);
   }
   app.listen(PORT, HOST, () => {
-    console.log(`Listening on port ${PORT}!!`);
+    console.log(`Orders Service is listening on port ${PORT}!!`);
   });
 };
 
