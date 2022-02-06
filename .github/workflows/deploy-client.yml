@@ -17,7 +17,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
       - run: cd client && echo NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${{ secrets.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY }} > .env.local
-      - run: docker build -t triwjy/ticketing-client .
+      - run: cd client && docker build -t triwjy/ticketing-client .
       - run: docker push triwjy/ticketing-client
       - uses: digitalocean/action-doctl@v2
         with:
