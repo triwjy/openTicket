@@ -17,4 +17,3 @@ spec:
                 name: auth-svc
                 port:
                   number: 3000
-
