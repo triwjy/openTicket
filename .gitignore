@@ -2,6 +2,7 @@ build
 common
 node_modules
 signingkey
+nats-test
 .env*
 .git
 .next
