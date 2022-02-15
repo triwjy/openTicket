@@ -9,8 +9,9 @@ export default ({ req }) => {
 
     return axios.create({
         // for dev:
-        // baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', 
-        baseURL: 'http://www.triwjy.xyz', 
+        baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', 
+        // for prod:
+        // baseURL: 'http://www.triwjy.xyz', 
         headers: req.headers
       });
   } else {
