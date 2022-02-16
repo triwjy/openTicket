@@ -5,17 +5,16 @@ import axios from "axios";
 
 export default ({ req }) => {
   if (typeof window === 'undefined') {
-    // we are on server
+    // on server
 
     return axios.create({
-        // for dev:
         baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local', 
-        // for prod:
+        // on prod:
         // baseURL: 'http://www.triwjy.xyz', 
         headers: req.headers
       });
   } else {
-    // we are on browser
+    // on browser
     return axios.create({
       baseURL: '/'
     });
