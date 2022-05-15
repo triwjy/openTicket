@@ -1,6 +1,8 @@
-*/node_modules
-client/.next
+build
+common
+node_modules
 signingkey
-*/.git
-*/build
-./common/
+nats-test
+.env*
+.git
+.next

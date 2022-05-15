@@ -2,6 +2,8 @@ import { requireAuth, validateRequest } from '@twtix/common';
 import express, { Request, Response } from 'express';
 import { body } from 'express-validator';
 import { Ticket } from '../models/ticket';
+import { TicketCreatedPublisher } from '../events/publishers/ticket-created-publisher';
+import { natsWrapper } from '../nats-wrapper';
 
 const router = express.Router();
 
@@ -11,8 +13,8 @@ requireAuth, [
     .notEmpty()
     .withMessage('Title is required'),
   body('price')
-    .isFloat({ gt: 0 })
-    .withMessage('Price must greater than 0')
+    .isFloat({ gt: 50 })
+    .withMessage('Price must greater than 50')
 
 ], 
 validateRequest, 
@@ -25,6 +27,14 @@ async (req: Request, res: Response) => {
     userId: req.currentUser!.id
   });
   await ticket.save();
+
+  await new TicketCreatedPublisher(natsWrapper.client).publish({
+    id: ticket.id,
+    version: ticket.version,
+    title: ticket.title,
+    price: ticket.price,
+    userId: req.currentUser!.id
+  })
 
   res.status(201).send(ticket);
 })
