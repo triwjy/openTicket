@@ -45,3 +45,15 @@ Ticket can only be created and ordered by authenticated user.
 Ordered ticket will be locked for an interval to allow user finish the transaction.  
 Ticket can be edited whenever it is not locked.  
 Once a ticket is successfully ordered and transactioned, it will no longer appear in index page.
+
+### New Update:
+
+- Orders: PaymentCreatedListener will publish OrderCompleted event with the order ticket id
+  Payments: OrderCompletedListener will update order status to be 'completed' in db
+
+- Added logic to in Payments to reject payments from cancelled/completed order.
+
+### Todo:
+
+- add minimal 50 jpy for stripe
+- use kafka

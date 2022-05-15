@@ -33,6 +33,7 @@ const NewTicket = () => {
   return (
     <div>
       <h1>Create a Ticket</h1>
+      <p>*Minimum price: 50</p>
       <form onSubmit={onSubmit}>
         <div className="mb-3">
           <label>Title</label>

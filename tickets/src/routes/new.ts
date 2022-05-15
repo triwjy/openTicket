@@ -13,8 +13,8 @@ requireAuth, [
     .notEmpty()
     .withMessage('Title is required'),
   body('price')
-    .isFloat({ gt: 0 })
-    .withMessage('Price must greater than 0')
+    .isFloat({ gt: 50 })
+    .withMessage('Price must greater than 50')
 
 ], 
 validateRequest, 

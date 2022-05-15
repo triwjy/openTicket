@@ -36,7 +36,11 @@ router.post('/api/payments',
       throw new NotAuthorizedError();
     }
     if (order.status === OrderStatus.Cancelled) {
-      throw new BadRequestError('Cannot complete payment: order was cancelled');
+      throw new BadRequestError('Cannot complete payment: order has been cancelled');
+    }
+
+    if (order.status === OrderStatus.Complete) {
+      throw new BadRequestError('Cannot complete payment: order has been completed');
     }
 
     const charge = await stripe.charges.create({
